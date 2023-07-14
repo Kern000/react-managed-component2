@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import GST from "./GST";
+import Summary from "./Summary";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component{
+ 
+    state = {
+        gst: 0,
+        bill: 0,
+        serviceCharge: 0,
+        total: 0
+    };
+ 
+    render(){
+        return(
+        <React.Fragment>
+        <GST 
+            name="bill"
+            bill={this.state.bill}
+            updateField={this.updateField}
+            calculate={this.calculate}
+            />
+        <Summary 
+            bill={this.state.bill}
+            gst={this.state.gst}
+            serviceCharge={this.state.serviceCharge}
+            total={this.state.total}            
+            />
+        </React.Fragment>
+        )
+    };
+
+
+    
+    updateField = (e) => {
+        this.setState({
+          [e.target.name]: e.target.value
+        });
+      };
+
+      calculate = (e) => {
+        this.setState({
+          gst: 0.07 * this.state.bill,
+          serviceCharge: 0.1 * this.state.bill,
+          total: 1.17 * this.state.bill
+        });
+      };
+
 }
-
-export default App;
